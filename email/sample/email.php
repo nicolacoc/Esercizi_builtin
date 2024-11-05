@@ -15,8 +15,8 @@ $recipient->name = "John Doe / Sender";
 $recipient->email = "niki@motoimco.it";
 
 $headers = array(
-    'From' => 'niki@motoimco.it',
-    'Reply-To' => 'niki@motoimco.it',
+    'From' => "$sender->name <$sender->email>",
+    'Reply-To' => "$sender->name <$sender->email>",
     'X-Mailer' => 'PHP/' . phpversion()
 );
 

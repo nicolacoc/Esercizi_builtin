@@ -4,12 +4,14 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 if (!empty($sito)):
-$nome = $sito['nome'];
-$email = $sito['email'];
-$testo = $sito['testo'];
-if (empty($nome) || empty($email) || empty($testo)){
+
+if (!empty($nome) || !empty($email) || !empty($text)){
     header('Location: index.php?error=Campi+vuoti!!');
     exit;
+}else{
+    $nome = $sito['nome'];
+    $email = $sito['email'];
+    $testo = $sito['text'];
 }
 
 //Load Composer's autoloader
@@ -22,12 +24,12 @@ try {
     //Server settings
     $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
     $mail->isSMTP();                                            //Send using SMTP
-    $mail->Host       = 'smtp.sendgrid.net';                     //Set the SMTP server to send through
+    $mail->Host       = 'sandbox.smtp.mailtrap.io';                     //Set the SMTP server to send through
     $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-    $mail->Username   = 'apikey';                     //SMTP username
-    $mail->Password   = '';                               //SMTP password
-    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-    $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
+    $mail->Username   = 'd263f3fc984d16';                     //SMTP username
+    $mail->Password   = '4c371e7235ff87';                               //SMTP password
+//    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
+    $mail->Port       = 25;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
 
     //Recipients
     $mail->setFrom($email, $nome);

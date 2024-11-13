@@ -8,14 +8,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $Email = (array_key_exists('Email', $_POST))? $_POST["Email"]:null;
     $Telefono = (array_key_exists('Telefono', $_POST))? $_POST["Telefono"]:null;
     $Data_di_Nascita = (array_key_exists('Data_di_Nascita', $_POST))? $_POST["Data_di_Nascita"]:null;
+
+
    if (array_key_exists('image', $_FILES)&& is_uploaded_file($_FILES['image']['tmp_name'])) {
      $notify= "Caricato con successo il file";
      $imageSRC="img/$imageName";
      move_uploaded_file($_FILES['image']['tmp_name'], $imageSRC);
-
    }else{
        $notify= "File non caricato";
    }
+
+   if (!empty($Email) && !filter_var($Email, FILTER_VALIDATE_EMAIL)) {
+       $notify= "Email non valida";
+   }
+
+   if (!empty($Data_di_Nascita) && DateTime::createFromFormat('d/m/Y', $Data_di_Nascita) === false) {
+       $notify= "Data di nascita non valida";
+   }
+
+
+
 
 }else{
     $imageName = null;
@@ -29,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $notify= null;
 }
 
-var_dump($_FILES);
 
 ?>
 <!DOCTYPE html>
@@ -54,8 +65,8 @@ var_dump($_FILES);
     <?php endif?>
     <form method="post" enctype="multipart/form-data">
     <div class="input-group mb-3 mt-5">
-        <input type="hidden" name="MAX_FILE_SIZE" value="10240">
-        <input type="file" class="form-control" id="image" name="image" value="<?php echo $imageName?>" required>
+        <input type="hidden" name="MAX_FILE_SIZE" value="2097152">
+        <input type="file" accept="image/png, image/jpeg" class="form-control" id="image" name="image" value="<?php echo $imageName?>" required>
         <label class="input-group-text" for="image">Upload</label>
     </div>
     <div class="input-group mb-3">
